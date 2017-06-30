@@ -17,11 +17,14 @@ public class GameManager : MonoBehaviour
 	public Text gameOver;
 
 	public bool playerIsAlive;
-
+	public bool restart;
 	// Use this for initialization
 	void Start () 
 	{
+		score.text = "";
+		gameOver.text = "";
 		playerIsAlive = true;
+		restart = false;
 		gameOver.IsActive();
 		deadASteroids = 0;
 		StartCoroutine(SpawnAsteroids ());
@@ -53,6 +56,7 @@ public class GameManager : MonoBehaviour
 	public void GameOver()
 	{
 		gameOver.text = "Game Over";
+		restart = true;
 	}
 
 	public void EndGame(bool final)
@@ -62,7 +66,17 @@ public class GameManager : MonoBehaviour
 
 	void MostrarPuntacio()
 	{
-		score.text = "Has matat: " + deadASteroids;
+		score.text = "Puntuacio: " + deadASteroids;
 	}
-		
+
+	void Update ()
+	{
+		if (restart)
+		{
+			if (Input.GetKeyDown (KeyCode.R))
+			{
+				Application.LoadLevel (Application.loadedLevel);
+			}
+		}
+	}
 }
